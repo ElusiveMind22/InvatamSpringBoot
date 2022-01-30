@@ -2,6 +2,8 @@ package com.example.demo.student;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
+
 @Entity (name = "Student")
 @Table(name = "Student",
         uniqueConstraints = {
@@ -30,10 +32,7 @@ public class Student {
     )
     private String name;
 
-    @Column(
-            name="age",
-            nullable = false
-    )
+    @Transient
     private Integer age;
 
     @Column(
@@ -49,21 +48,21 @@ public class Student {
     private String email;
 
     public Student() {
+
     }
 
-    public Student(Long id, String name, Integer age, LocalDate dob, String email) {
+    public Student(Long id, String name , LocalDate dob, String email) {
         this.id = id;
         this.name = name;
-        this.age = age;
         this.dob = dob;
         this.email = email;
     }
 
-    public Student(String name, Integer age, LocalDate dob, String email) {
+    public Student(String name , LocalDate dob, String email) {
         this.name = name;
-        this.age = age;
         this.dob = dob;
         this.email = email;
+
     }
 
     public Long getId() {
@@ -75,7 +74,7 @@ public class Student {
     }
 
     public Integer getAge() {
-        return age;
+        return Period.between(this.dob,LocalDate.now()).getYears();
     }
 
     public LocalDate getDob() {
